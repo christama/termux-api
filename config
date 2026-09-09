@@ -1,0 +1,29 @@
+#!/bin/bash
+# System configuration and build control script
+
+# 1. File Paths & Config
+CONFIG_FILE="config.ini"
+SRC_DIR="./src"
+BUILD_DIR="./build"
+
+# 2. Compile Control
+compile() {
+    echo "Starting compilation of $SRC_DIR..."
+    # Example: make clean && make
+    cmake --build . --target all
+    if [ $? -eq 0 ]; then
+        echo "Compilation SUCCESS."
+    else
+        echo "Compilation FAILED."
+        exit 1
+    fi
+}
+
+# 3. Auto-Run Logic
+if [ -f "$CONFIG_FILE" ]; then
+    echo "Configuration found. Executing auto-run..."
+    compile && ./run_system.sh
+else
+    echo "Error: Configuration file missing."
+    exit 1
+fi
